@@ -41,4 +41,28 @@ public class Game_Duraks {
 		}
 	}
 	
+	public void dealCardsToPlayers() {
+		for (int i = 0; i < cardsOnHands; i++) {
+			for (int j = 0; j < usersArr.length; j++) {
+				Card card = cardsDeck.giveCard();
+				usersArr[j].takeCard(card);
+			}
+		}
+		trump = cardsDeck.makeTrump();
+	}
+	
+	public void userInterface() {
+		System.out.println("Trumpis ir: " + cardsDeck.sendTrumpName(trump));
+		System.out.println(usersArr[0].getName() + " Jûsu kârtis:");
+		//     usersArr[0].sortCards();
+		for (int i = 0; i < usersArr[0].howMany_CardsHave(); i++) {
+			Card card = usersArr[0].cardInfo(i);
+			System.out.println((i + 1) + ") " + card.getSuit() + "_" + card.getType());
+		}
+		System.out.print("Uzpiediet vienu no cipariem lai turpinâtu: ");
+		scanner.nextLine();//////////////////////////////////////////////////////
+	}
+	
+	
+	
 }

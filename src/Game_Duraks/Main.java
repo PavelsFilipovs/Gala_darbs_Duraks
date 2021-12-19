@@ -5,5 +5,7 @@ public class Main {
 		Game_Duraks game_Duraks = new Game_Duraks();
 		game_Duraks.rules();
 		game_Duraks.giveToPlayersNames();
+		game_Duraks.dealCardsToPlayers();
+		game_Duraks.userInterface();
 	}
 }

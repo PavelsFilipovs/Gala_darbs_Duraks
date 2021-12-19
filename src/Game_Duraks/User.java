@@ -47,5 +47,13 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public int howMany_CardsHave() {
+		return arrUserCards.size();
+	}
+	
+	public Card cardInfo(int arrIndex) {
+		return arrUserCards.get(arrIndex);
+	}
 
 }

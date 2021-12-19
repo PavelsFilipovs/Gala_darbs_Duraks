@@ -19,6 +19,7 @@ public class CardsDeck {
 				card.setSuitIndex(i + 10);
 				card.setType(cardType[j]);
 				card.setTypeIndex(j + 10);
+				arrCardsDeck.add(card);
 			}
 		}
 	}
@@ -35,7 +36,11 @@ public class CardsDeck {
 	     return (int)(Math.random()*(Max- 0)) + 0;
 	}
 	
-	public int giveTrump() {
+	public int makeTrump() {
 		return random_int(cardSuit.length);
+	}
+	
+	public String sendTrumpName(int trump) {
+		return cardSuit[trump];
 	}
 }
