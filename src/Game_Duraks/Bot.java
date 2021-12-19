@@ -1,5 +1,5 @@
 package Game_Duraks;
 
-public class Bot {
+public class Bot extends User{
 
 }
