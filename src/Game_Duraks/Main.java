@@ -6,6 +6,7 @@ public class Main {
 		game_Duraks.rules();
 		game_Duraks.giveToPlayersNames();
 		game_Duraks.dealCardsToPlayers();
+		game_Duraks.whoGoesFirst();
 		game_Duraks.userInterface();
 	}
 }

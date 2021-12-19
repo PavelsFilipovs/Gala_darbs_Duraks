@@ -35,7 +35,7 @@ public class User {
 		return 0; 	////////////////////////////////
 	}
 	
-	public int info_lowestCard() {
+	public int info_LowestCard() {
 		
 		return 0; 	///////////////////////////////
 	}

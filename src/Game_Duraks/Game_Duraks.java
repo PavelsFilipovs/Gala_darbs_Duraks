@@ -1,5 +1,6 @@
 package Game_Duraks;
 
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -49,6 +50,39 @@ public class Game_Duraks {
 			}
 		}
 		trump = cardsDeck.makeTrump();
+	}
+	
+	public int whoGoesFirst() {
+		int[] lowestUserTrump = new int[numberOfPlayers];
+		int[] lowestUserCard = new int[numberOfPlayers];
+		int playerIndex_GoFirst;
+		for (int i = 0; i < usersArr.length; i++) {
+			lowestUserTrump[i] = usersArr[i].info_LowestTrump(trump);
+			lowestUserCard[i] = usersArr[i].info_LowestCard();
+		}
+		
+		if (lowestUserTrump[0] == 0) {			// ja nav trumpis pirmajam
+			playerIndex_GoFirst = 1;
+		} else if (lowestUserTrump[1] == 0) { 	// ja nav trumpis otrajam
+			playerIndex_GoFirst = 0;
+		} else {		
+			 if (lowestUserTrump[0] < lowestUserTrump[1]) {
+				playerIndex_GoFirst = 0;
+			} else  {
+				playerIndex_GoFirst = 1;
+			} 
+			 if (playerIndex_GoFirst == 0) {
+				 if (lowestUserCard[0] == lowestUserCard[1]) {
+					 Random random = new Random();
+					 playerIndex_GoFirst = random.nextInt(numberOfPlayers);
+				 } else if (lowestUserCard[0] < lowestUserCard[1]) {
+					 playerIndex_GoFirst = 0;
+				 } else {
+					 playerIndex_GoFirst = 1;
+				 }				
+			}
+		}
+		return playerIndex_GoFirst;
 	}
 	
 	public void userInterface() {
