@@ -1,11 +1,13 @@
 package Game_Duraks;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class User {
 	private String name;
-	
+	Random random = new Random();
 	private ArrayList<Card> arrUserCards = new ArrayList<Card>();
+	private Card defendWithThisCard;
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
@@ -27,17 +29,42 @@ public class User {
 	
 	public int info_CardsOnHand() {
 		
-		return 0; 	/////////////////////////////////
+		return arrUserCards.size(); 	
 	}
 	
 	public int info_LowestTrump(int trumpIndex) {
+		int lowestTrumpTypeIndex = 0;
 		
-		return 0; 	////////////////////////////////
+		for (int i = 0; i < arrUserCards.size(); i++) {
+			Card card = arrUserCards.get(i);
+			int suitIndex = card.getSuitIndex();
+			int typeIndex = card.getTypeIndex();
+			
+			if (lowestTrumpTypeIndex == 0) {
+				if (suitIndex == trumpIndex) {
+					lowestTrumpTypeIndex = typeIndex;
+				}
+			}  
+			else if (lowestTrumpTypeIndex > 0 && lowestTrumpTypeIndex > typeIndex) {
+				lowestTrumpTypeIndex = typeIndex;
+			}
+		}
+		
+		return lowestTrumpTypeIndex;
 	}
 	
 	public int info_LowestCard() {
-		
-		return 0; 	///////////////////////////////
+		int lowestCardTypeIndex = 0;
+		for (int i = 0; i < arrUserCards.size(); i++) {
+			Card card = arrUserCards.get(i);
+			int typeIndex = card.getTypeIndex();
+			if (lowestCardTypeIndex == 0) {
+				lowestCardTypeIndex = typeIndex;
+			} else if (lowestCardTypeIndex > 0 && lowestCardTypeIndex > typeIndex) {
+				lowestCardTypeIndex = typeIndex;
+			}
+		}
+		return lowestCardTypeIndex; 	
 	}
 
 	public String getName() {
@@ -55,5 +82,12 @@ public class User {
 	public Card cardInfo(int arrIndex) {
 		return arrUserCards.get(arrIndex);
 	}
+
+	public boolean CardToAttack(Card cardToAttack) {
+		
+		return true;///////////////////////////////////////////
+	}
+	
+	
 
 }

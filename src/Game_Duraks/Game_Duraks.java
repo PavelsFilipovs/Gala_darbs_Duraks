@@ -1,13 +1,17 @@
 package Game_Duraks;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 
 public class Game_Duraks {
-	private int numberOfPlayers = 2, cardsOnHands = 6;
+	private int numberOfPlayers = 2, cardsOnHands = 6, playerIndex_GoFirst;
 	private int trump;
-	private  User[] usersArr = new User[numberOfPlayers];
+	private Card attackCard, defendCard;
+	
+	private  User[] arrUsers = new User[numberOfPlayers];
+	private ArrayList<Card> arrSlaughteredCards = new ArrayList<Card>();
 	
 	Scanner scanner = new Scanner(System.in);
 	CardsDeck cardsDeck = new CardsDeck();
@@ -25,18 +29,18 @@ public class Game_Duraks {
 	
 	public void giveToPlayersNames() {
 		scanner.nextLine();
-		for (int i = 0; i < usersArr.length; i++) {
+		for (int i = 0; i < arrUsers.length; i++) {
 			if (i == 0) {
 				User user = new User();
-				usersArr[i] = user;
+				arrUsers[i] = user;
 				System.out.print("Kâds bûs Jûsu vârds: ");
-				usersArr[i].setName(scanner.nextLine());
+				arrUsers[i].setName(scanner.nextLine());
 				//System.out.println(usersArr[i].getName());
 			} else {
 				Bot bot = new Bot();
-				usersArr[i] = bot;
+				arrUsers[i] = bot;
 				System.out.print("Kâds bûs Bot_Nr" + i + " vârds: ");
-				usersArr[i].setName(scanner.nextLine());
+				arrUsers[i].setName(scanner.nextLine());
 				//System.out.println(usersArr[i].getName());
 			}
 		}
@@ -44,21 +48,22 @@ public class Game_Duraks {
 	
 	public void dealCardsToPlayers() {
 		for (int i = 0; i < cardsOnHands; i++) {
-			for (int j = 0; j < usersArr.length; j++) {
+			for (int j = 0; j < arrUsers.length; j++) {
 				Card card = cardsDeck.giveCard();
-				usersArr[j].takeCard(card);
+				arrUsers[j].takeCard(card);
 			}
 		}
 		trump = cardsDeck.makeTrump();
 	}
 	
 	public int whoGoesFirst() {
+		boolean flag = false;
 		int[] lowestUserTrump = new int[numberOfPlayers];
 		int[] lowestUserCard = new int[numberOfPlayers];
-		int playerIndex_GoFirst;
-		for (int i = 0; i < usersArr.length; i++) {
-			lowestUserTrump[i] = usersArr[i].info_LowestTrump(trump);
-			lowestUserCard[i] = usersArr[i].info_LowestCard();
+		
+		for (int i = 0; i < arrUsers.length; i++) {
+			lowestUserTrump[i] = arrUsers[i].info_LowestTrump(trump);
+			lowestUserCard[i] = arrUsers[i].info_LowestCard();
 		}
 		
 		if (lowestUserTrump[0] == 0) {			// ja nav trumpis pirmajam
@@ -66,34 +71,60 @@ public class Game_Duraks {
 		} else if (lowestUserTrump[1] == 0) { 	// ja nav trumpis otrajam
 			playerIndex_GoFirst = 0;
 		} else {		
-			 if (lowestUserTrump[0] < lowestUserTrump[1]) {
+			if (lowestUserTrump[0] < lowestUserTrump[1]) {
 				playerIndex_GoFirst = 0;
+				flag = true;
 			} else  {
 				playerIndex_GoFirst = 1;
+				flag = true;
 			} 
-			 if (playerIndex_GoFirst == 0) {
-				 if (lowestUserCard[0] == lowestUserCard[1]) {
-					 Random random = new Random();
-					 playerIndex_GoFirst = random.nextInt(numberOfPlayers);
-				 } else if (lowestUserCard[0] < lowestUserCard[1]) {
-					 playerIndex_GoFirst = 0;
-				 } else {
-					 playerIndex_GoFirst = 1;
-				 }				
+			if (flag == false) {
+				if (lowestUserCard[0] == lowestUserCard[1]) {
+					Random random = new Random();
+					playerIndex_GoFirst = random.nextInt(numberOfPlayers);
+				} else if (lowestUserCard[0] < lowestUserCard[1]) {
+					playerIndex_GoFirst = 0;
+				} else {
+					playerIndex_GoFirst = 1;
+				}				
 			}
 		}
 		return playerIndex_GoFirst;
 	}
 	
+	public void gameStructure() {
+		boolean haveCards = true, takeHomeOrDefend = true;
+		User firstUser = arrUsers[playerIndex_GoFirst];
+		User secondUser;
+		do {
+			if (playerIndex_GoFirst == 0) {
+				secondUser = arrUsers[1];
+			} else {
+				secondUser = arrUsers[0];
+			}
+			attackCard = firstUser.giveCard();
+			do {
+				if (secondUser.CardToAttack(attackCard)) {
+					
+				} else {
+					
+				}
+			} while (takeHomeOrDefend);
+			
+			
+			
+		} while (haveCards);
+	}
+	
 	public void userInterface() {
 		System.out.println("Trumpis ir: " + cardsDeck.sendTrumpName(trump));
-		System.out.println(usersArr[0].getName() + " Jûsu kârtis:");
+		System.out.println(arrUsers[0].getName() + " Jûsu kârtis:");
 		//     usersArr[0].sortCards();
-		for (int i = 0; i < usersArr[0].howMany_CardsHave(); i++) {
-			Card card = usersArr[0].cardInfo(i);
+		for (int i = 0; i < arrUsers[0].howMany_CardsHave(); i++) {
+			Card card = arrUsers[0].cardInfo(i);
 			System.out.println((i + 1) + ") " + card.getSuit() + "_" + card.getType());
 		}
-		System.out.print("Uzpiediet vienu no cipariem lai turpinâtu: ");
+		System.out.print("Ievadiet vienu no cipariem lai turpinâtu: ");
 		scanner.nextLine();//////////////////////////////////////////////////////
 	}
 	
