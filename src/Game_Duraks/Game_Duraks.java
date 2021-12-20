@@ -10,7 +10,7 @@ public class Game_Duraks {
 	private int trump;
 	private Card attackCard, defendCard;
 	
-	private  User[] arrUsers = new User[numberOfPlayers];
+	private  Player[] arrUsers = new Player[numberOfPlayers];
 	private ArrayList<Card> arrSlaughteredCards = new ArrayList<Card>();
 	
 	Scanner scanner = new Scanner(System.in);
@@ -94,17 +94,17 @@ public class Game_Duraks {
 	
 	public void gameStructure() {
 		boolean haveCards = true, takeHomeOrDefend = true;
-		User firstUser = arrUsers[playerIndex_GoFirst];
-		User secondUser;
+		int firstUserIndex = playerIndex_GoFirst;
+		int secondUserIndex;
 		do {
 			if (playerIndex_GoFirst == 0) {
-				secondUser = arrUsers[1];
+				secondUserIndex = 1;
 			} else {
-				secondUser = arrUsers[0];
+				secondUserIndex = 0;
 			}
-			attackCard = firstUser.giveCard();
+			attackCard = arrUsers[firstUserIndex].giveCard();
 			do {
-				if (secondUser.CardToAttack(attackCard)) {
+				if (arrUsers[secondUserIndex].CardToAttack(attackCard)) {
 					
 				} else {
 					

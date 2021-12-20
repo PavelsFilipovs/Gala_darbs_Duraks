@@ -3,7 +3,7 @@ package Game_Duraks;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class User {
+public class User implements Player {
 	private String name;
 	Random random = new Random();
 	private ArrayList<Card> arrUserCards = new ArrayList<Card>();
