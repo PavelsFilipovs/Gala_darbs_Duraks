@@ -19,7 +19,7 @@ public class User implements Player {
 	
 	public Card giveCard(Card card) {
 		
-		return new Card();	//////////////////////////
+		return defendWithThisCard;	//////////////////////////
 	}
 	
 	public Card giveCard() {
@@ -83,9 +83,15 @@ public class User implements Player {
 		return arrUserCards.get(arrIndex);
 	}
 
-	public boolean CardToAttack(Card cardToAttack) {
+	public boolean cardToAttack(Card cardToAttack) {
 		
 		return true;///////////////////////////////////////////
+	}
+
+	
+	public boolean endTheTurn() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

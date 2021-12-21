@@ -93,7 +93,7 @@ public class Game_Duraks {
 	}
 	
 	public void gameStructure() {
-		boolean haveCards = true, takeHomeOrDefend = true;
+		boolean haveCards = true, canNotDefend = true;
 		int firstUserIndex = playerIndex_GoFirst;
 		int secondUserIndex;
 		do {
@@ -102,14 +102,17 @@ public class Game_Duraks {
 			} else {
 				secondUserIndex = 0;
 			}
-			attackCard = arrUsers[firstUserIndex].giveCard();
 			do {
-				if (arrUsers[secondUserIndex].CardToAttack(attackCard)) {
-					
+				attackCard = arrUsers[firstUserIndex].giveCard();
+				if (arrUsers[secondUserIndex].cardToAttack(attackCard)) {
+					arrUsers[secondUserIndex].giveCard(attackCard);
 				} else {
-					
-				}
-			} while (takeHomeOrDefend);
+					arrUsers[secondUserIndex].takeCard(attackCard);
+					arrUsers[secondUserIndex].takeCard(arrSlaughteredCards);
+					arrSlaughteredCards.clear();
+				} 
+				
+			} while (canNotDefend);
 			
 			
 			

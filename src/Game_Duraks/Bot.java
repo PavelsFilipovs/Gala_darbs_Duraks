@@ -83,9 +83,15 @@ public class Bot implements Player {
 		return arrUserCards.get(arrIndex);
 	}
 
-	public boolean CardToAttack(Card cardToAttack) {
+	public boolean cardToAttack(Card cardToAttack) {
 		
 		return true;///////////////////////////////////////////
+	}
+
+	
+	public boolean endTheTurn() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

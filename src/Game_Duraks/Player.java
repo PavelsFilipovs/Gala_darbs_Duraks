@@ -26,5 +26,7 @@ public interface Player {
 	
 	public Card cardInfo(int arrIndex);
 	
-	public boolean CardToAttack(Card cardToAttack);
+	public boolean cardToAttack(Card cardToAttack);
+	
+	public boolean endTheTurn();
 }
