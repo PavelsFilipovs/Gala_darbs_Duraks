@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class User implements Player {
-	private boolean secondCircleOfCardGive = false;
+	private boolean secondCircleOfCardGive = false; /// paskatîties bot kâ biju darîjis! mçìinât pielâgot
 	private String name;
 	Random random = new Random();
 	private ArrayList<Card> arrUserCards = new ArrayList<Card>();
@@ -86,34 +86,9 @@ public class User implements Player {
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
-		ArrayList<Card> arrCopyOfUserCards = new ArrayList<Card>();
-		ArrayList<Card> arrCardsWhatCanGive = new ArrayList<Card>();
-		for (int i = 0; i < arrSlaughteredCards.size(); i++) {
-			for (int j = 0; j < arrCopyOfUserCards.size(); j++) {
-				int someUserCardTypeIndex = arrCopyOfUserCards.get(j).getTypeIndex();
-				int someIncomeCardTypeIndex = arrSlaughteredCards.get(i).getTypeIndex();
-				if (someIncomeCardTypeIndex == someUserCardTypeIndex) {
-					arrCardsWhatCanGive.add(arrSlaughteredCards.get(i));
-					arrCopyOfUserCards.remove(j);
-				}
-			}
-			
-		}
 		
-		Card lowestCard = arrCardsWhatCanGive.get(0);
-		for (int i = 0; i < arrCardsWhatCanGive.size(); i++) {
-			for (int j = 0; j < arrCardsWhatCanGive.size(); j++) {
-				if (lowestCard.getTypeIndex() > arrCardsWhatCanGive.get(i).getTypeIndex()) {
-					lowestCard = arrCardsWhatCanGive.get(i);
-				}
-				
-			}
-		}
-		attackWithThisCard = lowestCard;
-		if (!arrCardsWhatCanGive.isEmpty()) {
-			secondCircleOfCardGive = true; 
-		}
-		return secondCircleOfCardGive; ////////////////////////////////////////// user veidu izveidot nevis bota
+		
+		return false; 		////////////////////////////////////////// user veidu izveidot nevis bota
 	}
 
 	

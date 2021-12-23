@@ -23,7 +23,6 @@ public class Bot implements Player {
 	public Card giveCard() {
 		int indexOfLowestCard;
 		if (secondCircleOfCardGive == false) {
-			
 			indexOfLowestCard = info_LowestCard();
 			for (int i = 0; i < arrUserCards.size(); i++) {
 				if (arrUserCards.get(i).getTypeIndex() == indexOfLowestCard) {
@@ -48,7 +47,7 @@ public class Bot implements Player {
 
 	public Card giveCard_ToDefenceFrom(Card attackCard) {
 		
-		return defendWithThisCard;	//////////////////////////
+		return defendWithThisCard;	
 	}
 	
 	public int info_LowestTrump(int trumpIndex) {
@@ -106,6 +105,7 @@ public class Bot implements Player {
 	public boolean checkCanDefendWithCardFrom(Card cardToAttack) {
 		boolean answer = false;
 		ArrayList<Card> arrLocalCardDefend = new ArrayList<Card>();
+		
 		for (int i = 0; i < arrUserCards.size(); i++) {
 			int atackCardSuitIndex = cardToAttack.getSuitIndex();
 			int atackCardTypeIndex = cardToAttack.getTypeIndex();
@@ -142,13 +142,16 @@ public class Bot implements Player {
 				}
 			}
 		} else {
-			// uzrakstît atack card ir zema, bet ne maksimali un 
-			// tev ir 1 vai vairâk augstâkas kârtis ar to paðu masti kas uzbrucçjam
-			// 
+			Card lowestDefendingCard = arrLocalCardDefend.get(0);
+			for (int i = 0; i < arrLocalCardDefend.size(); i++) {
+				if (lowestDefendingCard.getTypeIndex() > arrLocalCardDefend.get(i).getTypeIndex()) {
+					lowestDefendingCard = arrLocalCardDefend.get(i);
+				}
+			}
+			defendWithThisCard = lowestDefendingCard;
+			answer = true;
 		}
-		
-		
-		return answer;///////////////////////////////////////////
+		return answer;
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
@@ -179,7 +182,7 @@ public class Bot implements Player {
 		if (!arrCardsWhatCanGive.isEmpty()) {
 			secondCircleOfCardGive = true; 
 		}
-		return secondCircleOfCardGive; //////////////////////////////////////////
+		return secondCircleOfCardGive; 
 	}
 
 	
