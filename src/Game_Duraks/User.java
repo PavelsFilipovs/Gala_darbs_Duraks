@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class User implements Player {
+	private boolean secondCircleOfCardGive = false;
 	private String name;
 	Random random = new Random();
 	private ArrayList<Card> arrUserCards = new ArrayList<Card>();
 	private Card defendWithThisCard;
+	private Card attackWithThisCard;
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
@@ -19,12 +21,12 @@ public class User implements Player {
 	
 	public Card giveCard() {
 		
-		return new Card();	/////// vai tieðâm user input nevajag mainigo gameStructure()
+		return new Card();	/////// vai tieðâm user input nevajag mainigo gameStructure(). NEVAJAG padomâ vai paskaties botu
 	}
 
 	public Card giveCard_ToDefenceFrom(Card attackCard) {
 		
-		return defendWithThisCard;	//////////////////////////
+		return defendWithThisCard;	////////////////////////// user veidu izveidot nevis bota
 	}
 	
 	public int info_LowestTrump(int trumpIndex) {
@@ -80,12 +82,38 @@ public class User implements Player {
 
 	public boolean checkCanDefendWithCardFrom(Card cardToAttack) {
 		
-		return true;///////////////////////////////////////////
+		return true;///////////////////////////////////////////     user veidu izveidot nevis bota
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
+		ArrayList<Card> arrCopyOfUserCards = new ArrayList<Card>();
+		ArrayList<Card> arrCardsWhatCanGive = new ArrayList<Card>();
+		for (int i = 0; i < arrSlaughteredCards.size(); i++) {
+			for (int j = 0; j < arrCopyOfUserCards.size(); j++) {
+				int someUserCardTypeIndex = arrCopyOfUserCards.get(j).getTypeIndex();
+				int someIncomeCardTypeIndex = arrSlaughteredCards.get(i).getTypeIndex();
+				if (someIncomeCardTypeIndex == someUserCardTypeIndex) {
+					arrCardsWhatCanGive.add(arrSlaughteredCards.get(i));
+					arrCopyOfUserCards.remove(j);
+				}
+			}
+			
+		}
 		
-		return true; //////////////////////////////////////////
+		Card lowestCard = arrCardsWhatCanGive.get(0);
+		for (int i = 0; i < arrCardsWhatCanGive.size(); i++) {
+			for (int j = 0; j < arrCardsWhatCanGive.size(); j++) {
+				if (lowestCard.getTypeIndex() > arrCardsWhatCanGive.get(i).getTypeIndex()) {
+					lowestCard = arrCardsWhatCanGive.get(i);
+				}
+				
+			}
+		}
+		attackWithThisCard = lowestCard;
+		if (!arrCardsWhatCanGive.isEmpty()) {
+			secondCircleOfCardGive = true; 
+		}
+		return secondCircleOfCardGive; ////////////////////////////////////////// user veidu izveidot nevis bota
 	}
 
 	

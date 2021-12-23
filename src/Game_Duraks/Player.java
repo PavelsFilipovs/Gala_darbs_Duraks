@@ -9,9 +9,9 @@ public interface Player {
 	public void takeCard(ArrayList<Card> arrCards);
 	
 	public Card giveCard_ToDefenceFrom(Card attackCard);	////////// neesmu izmantojis
-	
+
 	public Card giveCard();
-	
+		
 	public int info_LowestTrump(int trumpIndex);
 	
 	public int info_LowestCard();
