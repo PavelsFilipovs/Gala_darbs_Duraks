@@ -43,4 +43,8 @@ public class CardsDeck {
 	public String sendTrumpName(int trump) {
 		return cardSuit[trump];
 	}
+	
+	public int howManyCardsLeft() {
+		return arrCardsDeck.size();
+	}
 }

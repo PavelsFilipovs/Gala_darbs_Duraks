@@ -17,7 +17,7 @@ public class Bot implements Player {
 		arrUserCards.addAll(arrCards);
 	}
 	
-	public Card giveCard(Card card) {
+	public Card giveCard_ToDefenceFrom(Card attackCard) {
 		
 		return new Card();	//////////////////////////
 	}
@@ -25,11 +25,6 @@ public class Bot implements Player {
 	public Card giveCard() {
 		
 		return new Card();	//////////////////////////
-	}
-	
-	public int info_CardsOnHand() {
-		
-		return arrUserCards.size(); 	
 	}
 	
 	public int info_LowestTrump(int trumpIndex) {
@@ -83,9 +78,14 @@ public class Bot implements Player {
 		return arrUserCards.get(arrIndex);
 	}
 
-	public boolean cardToAttack(Card cardToAttack) {
+	public boolean checkCanDefendWithCardFrom(Card cardToAttack) {
 		
 		return true;///////////////////////////////////////////
+	}
+	
+	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
+		
+		return true; //////////////////////////////////////////
 	}
 
 	

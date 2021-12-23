@@ -93,30 +93,76 @@ public class Game_Duraks {
 	}
 	
 	public void gameStructure() {
-		boolean haveCards = true, canNotDefend = true;
+		boolean haveCardsInDeckAndBothPlayers = true;
 		int firstUserIndex = playerIndex_GoFirst;
 		int secondUserIndex;
-		do {
-			if (playerIndex_GoFirst == 0) {
-				secondUserIndex = 1;
-			} else {
-				secondUserIndex = 0;
-			}
-			do {
-				attackCard = arrUsers[firstUserIndex].giveCard();
-				if (arrUsers[secondUserIndex].cardToAttack(attackCard)) {
-					arrUsers[secondUserIndex].giveCard(attackCard);
+		Card attackCard, defendCard;
+		
+		if (firstUserIndex == 0) {
+			secondUserIndex = 1;
+		} else {
+			secondUserIndex = 0;
+		}
+		
+		attackCard = arrUsers[firstUserIndex].giveCard();
+		
+		while (haveCardsInDeckAndBothPlayers) {
+			if (arrUsers[secondUserIndex].checkCanDefendWithCardFrom(attackCard)) {
+				defendCard = arrUsers[secondUserIndex].giveCard_ToDefenceFrom(attackCard);
+				arrSlaughteredCards.add(attackCard);
+				arrSlaughteredCards.add(defendCard);
+				if (cardsDeck.howManyCardsLeft() <= 0 && somePlayerDontHaveCards()) {
+					break;						//////////// vienîgi vadzçtu izvadît uzvarçtâju arî!!!!
+				}
+				if (arrUsers[firstUserIndex].checkCanGiveCardToAttack(arrSlaughteredCards)) {
+					attackCard = arrUsers[firstUserIndex].giveCard(); /////// vai tieðâm user input nevajag mainigo
 				} else {
-					arrUsers[secondUserIndex].takeCard(attackCard);
-					arrUsers[secondUserIndex].takeCard(arrSlaughteredCards);
 					arrSlaughteredCards.clear();
-				} 
-				
-			} while (canNotDefend);
-			
-			
-			
-		} while (haveCards);
+					if (firstUserIndex == 0) {
+						secondUserIndex = 0;
+						firstUserIndex = 1;
+					} else {
+						secondUserIndex = 1;
+						firstUserIndex = 0;
+					}
+					if (cardsDeck.howManyCardsLeft() <= 0 && somePlayerDontHaveCards()) {
+						break;						//////////// vienîgi vadzçtu izvadît uzvarçtâju arî!!!!
+					}
+					dealMisingCardsToPlayers();
+					attackCard = arrUsers[firstUserIndex].giveCard();
+				}
+			} else {
+				arrUsers[secondUserIndex].takeCard(attackCard);
+				arrUsers[secondUserIndex].takeCard(arrSlaughteredCards);
+				if (cardsDeck.howManyCardsLeft() <= 0 && somePlayerDontHaveCards()) {
+					break;						//////////// vienîgi vadzçtu izvadît uzvarçtâju arî!!!!
+				}
+				dealMisingCardsToPlayers();
+				attackCard = arrUsers[firstUserIndex].giveCard();
+			}
+		}
+		
+	}
+	
+	private void dealMisingCardsToPlayers() {
+		for (int i = 0; i < arrUsers.length; i++) {
+			if (arrUsers[i].howMany_CardsHave() < cardsOnHands) {
+				for (int j = 0; j < (cardsOnHands - arrUsers[i].howMany_CardsHave()); j++) {
+					if (cardsDeck.howManyCardsLeft() > 0) {				
+						arrUsers[i].takeCard(cardsDeck.giveCard());		
+						///// varbût atgâdinât, ka kartis beidzâs!?!?!?!?!?
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean somePlayerDontHaveCards() {
+		boolean aswer = false;
+		if (arrUsers[0].howMany_CardsHave() <= 0 || arrUsers[0].howMany_CardsHave() <= 0) {
+			aswer = true;
+		}
+		return aswer;
 	}
 	
 	public void userInterface() {

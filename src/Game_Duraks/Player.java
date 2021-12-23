@@ -8,11 +8,9 @@ public interface Player {
 	
 	public void takeCard(ArrayList<Card> arrCards);
 	
-	public Card giveCard(Card card);
+	public Card giveCard_ToDefenceFrom(Card attackCard);	////////// neesmu izmantojis
 	
 	public Card giveCard();
-	
-	public int info_CardsOnHand();
 	
 	public int info_LowestTrump(int trumpIndex);
 	
@@ -26,7 +24,9 @@ public interface Player {
 	
 	public Card cardInfo(int arrIndex);
 	
-	public boolean cardToAttack(Card cardToAttack);
+	public boolean checkCanDefendWithCardFrom(Card cardToAttack);
+	
+	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards);
 	
 	public boolean endTheTurn();
 }

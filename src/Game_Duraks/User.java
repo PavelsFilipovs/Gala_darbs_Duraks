@@ -17,19 +17,14 @@ public class User implements Player {
 		arrUserCards.addAll(arrCards);
 	}
 	
-	public Card giveCard(Card card) {
-		
-		return defendWithThisCard;	//////////////////////////
-	}
-	
 	public Card giveCard() {
 		
-		return new Card();	//////////////////////////
+		return new Card();	/////// vai tieðâm user input nevajag mainigo gameStructure()
 	}
-	
-	public int info_CardsOnHand() {
+
+	public Card giveCard_ToDefenceFrom(Card attackCard) {
 		
-		return arrUserCards.size(); 	
+		return defendWithThisCard;	//////////////////////////
 	}
 	
 	public int info_LowestTrump(int trumpIndex) {
@@ -83,9 +78,14 @@ public class User implements Player {
 		return arrUserCards.get(arrIndex);
 	}
 
-	public boolean cardToAttack(Card cardToAttack) {
+	public boolean checkCanDefendWithCardFrom(Card cardToAttack) {
 		
 		return true;///////////////////////////////////////////
+	}
+	
+	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
+		
+		return true; //////////////////////////////////////////
 	}
 
 	
