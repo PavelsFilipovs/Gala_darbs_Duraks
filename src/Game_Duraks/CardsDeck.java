@@ -1,11 +1,13 @@
 package Game_Duraks;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CardsDeck {
 	private ArrayList<Card> arrCardsDeck = new ArrayList<Card>();
 	private String[] cardSuit = {"Ercena", "Kârava", "Pîía", "Kreièa"};
 	private String[] cardType = {"6", "7", "8", "9", "10", "Kalps", "Dâma", "Kungs", "Dûzis"};
+	public int trumpIndex;
 	
 	public CardsDeck() {
 		makeDeck();
@@ -37,8 +39,11 @@ public class CardsDeck {
 	     return (int)(Math.random()*(Max- 0)) + 0;
 	}
 	
-	public int makeTrump() {
-		return random_int(cardSuit.length);
+	public int makeTrump() { 
+		
+		Random random = new Random(); trumpIndex = random.nextInt(cardSuit.length);
+		
+		return trumpIndex;
 	}
 	
 	public String sendTrumpName(int trump) {

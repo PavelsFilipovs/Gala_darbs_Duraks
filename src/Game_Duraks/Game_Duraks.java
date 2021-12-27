@@ -41,7 +41,9 @@ public class Game_Duraks {
 		
 	}
 	
-	public void dealCardsToPlayers() {
+	public void dealCardsToPlayers() { 
+		
+		
 		for (int i = 0; i < cardsOnHands; i++) {
 			for (int j = 0; j < arrUsers.length; j++) {
 				Card card = cardsDeck.giveCard();
@@ -50,7 +52,14 @@ public class Game_Duraks {
 		}
 		System.out.println();
 		trump = cardsDeck.makeTrump();
+		for (int i = 0; i < arrUsers.length; i++) {
+			arrUsers[i].setTrumpIndex(trump);
+		}
+		
+		
+		
 	}
+	
 	
 	public int whoGoesFirst() {
 		boolean flag = false;
@@ -130,6 +139,7 @@ public class Game_Duraks {
 			} else {
 				arrUsers[secondUserIndex].takeCard(attackCard);
 				arrUsers[secondUserIndex].takeCard(arrSlaughteredCards);
+				
 				if (cardsDeck.howManyCardsLeft() <= 0 && somePlayerDontHaveCards()) {
 					break;						//////////// vienîgi vadzçtu izvadît uzvarçtâju arî!!!!
 				}

@@ -13,12 +13,14 @@ public class Bot implements Player {
 	private Card attackWithThisCard;
 	private int trumpIndex;
 	Scanner scanner = new Scanner(System.in);
+	ConsoleText consoleText = new ConsoleText();
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
 	}
 	
 	public void takeCard(ArrayList<Card> arrCards) {
+		consoleText.botTakeHome();
 		arrUserCards.addAll(arrCards);
 	}
 	
@@ -29,18 +31,12 @@ public class Bot implements Player {
 			for (int i = 0; i < arrUserCards.size(); i++) {
 				if (arrUserCards.get(i).getTypeIndex() == indexOfLowestCard) {
 					attackWithThisCard = arrUserCards.get(i);
-					arrUserCards.remove(i);
+					arrUserCards.remove(attackWithThisCard);
 					break;
 				}
 			}
 		} else {
-			for (int i = 0; i < arrUserCards.size(); i++) {
-				if (arrUserCards.get(i) == attackWithThisCard) {
-					arrUserCards.remove(i);
-					break;
-				}
-			}
-			
+			arrUserCards.remove(attackWithThisCard);			
 			secondCircleOfCardGive = false;
 		}
 		return attackWithThisCard;
@@ -52,8 +48,8 @@ public class Bot implements Player {
 		return defendWithThisCard;	
 	}
 	
-	public int info_LowestTrump(int trumpIndex) {
-		this.trumpIndex = trumpIndex;
+	public int info_LowestTrump(int trumpIndexSome) {
+		trumpIndex = trumpIndexSome + 10;             ///////////////// te skatît ja aiziet grizi trumpis
 		int lowestTrumpTypeIndex = 0;
 		
 		for (int i = 0; i < arrUserCards.size(); i++) {
@@ -61,13 +57,13 @@ public class Bot implements Player {
 			int suitIndex = card.getSuitIndex();
 			int typeIndex = card.getTypeIndex();
 			
-			if (lowestTrumpTypeIndex == 0) {
-				if (suitIndex == trumpIndex) {
+			if (suitIndex == trumpIndex) {
+				if (lowestTrumpTypeIndex == 0) {
 					lowestTrumpTypeIndex = typeIndex;
 				}
-			}  
-			else if (lowestTrumpTypeIndex > 0 && lowestTrumpTypeIndex > typeIndex) {
-				lowestTrumpTypeIndex = typeIndex;
+				else if (lowestTrumpTypeIndex > 0 && lowestTrumpTypeIndex > typeIndex) {
+					lowestTrumpTypeIndex = typeIndex;
+				} 
 			}
 		}
 		
@@ -79,10 +75,13 @@ public class Bot implements Player {
 		for (int i = 0; i < arrUserCards.size(); i++) {
 			Card card = arrUserCards.get(i);
 			int typeIndex = card.getTypeIndex();
-			if (lowestCardTypeIndex == 0) {
-				lowestCardTypeIndex = typeIndex;
-			} else if (lowestCardTypeIndex > 0 && lowestCardTypeIndex > typeIndex) {
-				lowestCardTypeIndex = typeIndex;
+			int suitIndex = card.getSuitIndex();
+			if (suitIndex != trumpIndex) {
+				if (lowestCardTypeIndex == 0) {
+					lowestCardTypeIndex = typeIndex;
+				} else if (lowestCardTypeIndex > 0 && lowestCardTypeIndex > typeIndex) {
+					lowestCardTypeIndex = typeIndex;
+				}
 			}
 		}
 		return lowestCardTypeIndex; 	
@@ -153,11 +152,14 @@ public class Bot implements Player {
 			defendWithThisCard = lowestDefendingCard;
 			answer = true;
 		}
+		if (answer == true) {
+			consoleText.BotDefend(name, cardToAttack.getName(), defendWithThisCard.getName());
+		}
 		return answer;
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
-		ArrayList<Card> arrCopyOfUserCards = new ArrayList<Card>();
+		ArrayList<Card> arrCopyOfUserCards = arrUserCards;
 		ArrayList<Card> arrCardsWhatCanGive = new ArrayList<Card>();
 		for (int i = 0; i < arrSlaughteredCards.size(); i++) {
 			for (int j = 0; j < arrCopyOfUserCards.size(); j++) {
@@ -194,6 +196,10 @@ public class Bot implements Player {
 	public boolean endTheTurn() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void setTrumpIndex(int trumpIndex) {
+		this.trumpIndex = trumpIndex;
 	}
 	
 

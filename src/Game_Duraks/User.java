@@ -1,10 +1,16 @@
 package Game_Duraks;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 public class User implements Player {
+	Scanner scanner = new Scanner(System.in);
+	ConsoleText consoleText = new ConsoleText();
+	
 	private boolean secondCircleOfCardGive = false; /// paskatîties bot kâ biju darîjis! mçìinât pielâgot
 	private String name;
 	Random random = new Random();
@@ -13,9 +19,6 @@ public class User implements Player {
 	private Card attackWithThisCard;
 	private int trumpIndex;
 	
-	Scanner scanner = new Scanner(System.in);
-	ConsoleText consoleText = new ConsoleText();
-	CardsDeck cardsDeck = new CardsDeck();
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
@@ -28,17 +31,12 @@ public class User implements Player {
 	public Card giveCard() {
 		if (secondCircleOfCardGive == false) {
 			userInterface();
-			System.out.print("Ievadiet vienu no cipariem lai turpinâtu: ");
-			int cardNumber = scanner.nextInt();
+			consoleText.userInsertOneOfNumbers();
+			int cardNumber = scanner.nextInt() - 1;
 			attackWithThisCard = arrUserCards.get(cardNumber);
+			arrUserCards.remove(attackWithThisCard);
 		} else {
-			for (int i = 0; i < arrUserCards.size(); i++) {
-				if (arrUserCards.get(i) == attackWithThisCard) {
-					arrUserCards.remove(i);
-					break;	// FOR cikls nav parbaudîts jo vajag atrast miiedarbîbu ar checkCanGiveCardToAttack (bot paskaties)
-				}
-			}
-			
+			arrUserCards.remove(attackWithThisCard);
 			secondCircleOfCardGive = false;
 		}
 		return attackWithThisCard;	/////// vai tieðâm user input nevajag mainigo gameStructure(). NEVAJAG padomâ vai paskaties botu
@@ -49,7 +47,8 @@ public class User implements Player {
 		return defendWithThisCard;	////////////////////////// user veidu izveidot nevis bota
 	}
 	
-	public int info_LowestTrump(int trumpIndex) {
+	public int info_LowestTrump(int trumpIndexSome) {
+		int trumpIndex = trumpIndexSome + 10;
 		int lowestTrumpTypeIndex = 0;
 		
 		for (int i = 0; i < arrUserCards.size(); i++) {
@@ -57,13 +56,13 @@ public class User implements Player {
 			int suitIndex = card.getSuitIndex();
 			int typeIndex = card.getTypeIndex();
 			
-			if (lowestTrumpTypeIndex == 0) {
-				if (suitIndex == trumpIndex) {
+			if (suitIndex == trumpIndex) {
+				if (lowestTrumpTypeIndex == 0) {
 					lowestTrumpTypeIndex = typeIndex;
 				}
-			}  
-			else if (lowestTrumpTypeIndex > 0 && lowestTrumpTypeIndex > typeIndex) {
-				lowestTrumpTypeIndex = typeIndex;
+				else if (lowestTrumpTypeIndex > 0 && lowestTrumpTypeIndex > typeIndex) {
+					lowestTrumpTypeIndex = typeIndex;
+				} 
 			}
 		}
 		
@@ -123,20 +122,17 @@ public class User implements Player {
 		}
 		
 		if (arrLocalCardDefend.isEmpty()) {
-			if (cardToAttack.getSuitIndex() == trumpIndex) {
-				answer = false;
-			} else {
-				for (int i = 0; i < arrUserCards.size(); i++) {
-					if (trumpIndex == arrUserCards.get(i).getSuitIndex()) {
-						arrTrumpLocalCard.add(arrUserCards.get(i));
-					}
-				}
-				if (arrTrumpLocalCard.isEmpty()) {
-					answer = false;
-				} else {
-					answer = true;
+			for (int i = 0; i < arrUserCards.size(); i++) {
+				if (trumpIndex == arrUserCards.get(i).getSuitIndex()) {
+					arrTrumpLocalCard.add(arrUserCards.get(i));
 				}
 			}
+			if (arrTrumpLocalCard.isEmpty()) {
+				answer = false;
+			} else {
+				answer = true;
+			}
+			
 		} else {
 			answer = true;
 		}
@@ -174,7 +170,7 @@ public class User implements Player {
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
-		ArrayList<Card> arrCopyOfUserCards = new ArrayList<Card>();
+		ArrayList<Card> arrCopyOfUserCards = arrUserCards;
 		ArrayList<Card> arrCardsWhatCanGive = new ArrayList<Card>();
 		for (int i = 0; i < arrSlaughteredCards.size(); i++) {
 			for (int j = 0; j < arrCopyOfUserCards.size(); j++) {
@@ -189,10 +185,16 @@ public class User implements Player {
 		}
 		
 		
-		
+		Set<String> setOfTypeWhatCanGive = new HashSet<String>();
 		if (!arrCardsWhatCanGive.isEmpty()) {
 			secondCircleOfCardGive = true;
-			int userPushNumber = scanner.nextInt();
+			for (int i = 0; i < arrCardsWhatCanGive.size(); i++) {
+				setOfTypeWhatCanGive.add(arrCardsWhatCanGive.get(i).getType());
+			}
+			consoleText.typeWhatCanGive(setOfTypeWhatCanGive);
+			userInterface();
+			consoleText.userInsertOneOfNumbers();
+			int userPushNumber = scanner.nextInt() - 1;
 			System.out.println();
 			boolean getIncorrectAnswer = true;
 			while (getIncorrectAnswer) {
@@ -220,6 +222,7 @@ public class User implements Player {
 			}
 			
 		} else {
+			System.out.println("Jums nav neviena kârts ko varat pielikt, tâpçc dodu gajienu nâkamajam");
 			secondCircleOfCardGive = false;
 		}
 		return secondCircleOfCardGive; 	
@@ -234,7 +237,7 @@ public class User implements Player {
 	private void userInterface() {
 		int numberOfIfStatment = 0;
 		// System.out.println("Trumpis ir: " + cardsDeck.sendTrumpName(trump));
-		consoleText.tellTrump(cardsDeck.sendTrumpName(trumpIndex));
+		consoleText.tellTrump(trumpIndex);
 		System.out.println(getName() + " Jûsu kârtis:");
 		for (int i = 0; i < howMany_CardsHave(); i++) {
 			Card card = cardInfo(i);
@@ -250,6 +253,10 @@ public class User implements Player {
 		 * 1) + ") " + "Pateikt, ka jûs òemat mâjâs kârtis!"); }
 		 */
 		//////////////////////////////////////////////////////
+	}
+
+	public void setTrumpIndex(int trumpIndex) {
+		this.trumpIndex = trumpIndex;
 	}
 	
 	

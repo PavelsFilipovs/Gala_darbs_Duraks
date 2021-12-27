@@ -29,4 +29,6 @@ public interface Player {
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards);
 	
 	public boolean endTheTurn();
+	
+	public void setTrumpIndex(int trumpIndex);
 }
