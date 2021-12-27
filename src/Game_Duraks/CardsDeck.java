@@ -19,6 +19,7 @@ public class CardsDeck {
 				card.setSuitIndex(i + 10);
 				card.setType(cardType[j]);
 				card.setTypeIndex(j + 10);
+				card.setName(card.getSuit() + "_" + card.getType());
 				arrCardsDeck.add(card);
 			}
 		}

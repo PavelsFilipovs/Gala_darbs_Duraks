@@ -2,6 +2,7 @@ package Game_Duraks;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Bot implements Player {
 	private boolean secondCircleOfCardGive = false;
@@ -11,6 +12,7 @@ public class Bot implements Player {
 	private Card defendWithThisCard;
 	private Card attackWithThisCard;
 	private int trumpIndex;
+	Scanner scanner = new Scanner(System.in);
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
@@ -46,7 +48,7 @@ public class Bot implements Player {
 	}
 
 	public Card giveCard_ToDefenceFrom(Card attackCard) {
-		
+		arrUserCards.remove(defendWithThisCard);
 		return defendWithThisCard;	
 	}
 	
@@ -168,19 +170,22 @@ public class Bot implements Player {
 			}
 			
 		}
-		
-		Card lowestCard = arrCardsWhatCanGive.get(0);
-		for (int i = 0; i < arrCardsWhatCanGive.size(); i++) {
-			for (int j = 0; j < arrCardsWhatCanGive.size(); j++) {
-				if (lowestCard.getTypeIndex() > arrCardsWhatCanGive.get(i).getTypeIndex()) {
-					lowestCard = arrCardsWhatCanGive.get(i);
+		if (arrCardsWhatCanGive.isEmpty()) {
+			secondCircleOfCardGive = false;
+		} else {
+			Card lowestCard = arrCardsWhatCanGive.get(0);
+			for (int i = 0; i < arrCardsWhatCanGive.size(); i++) {
+				for (int j = 0; j < arrCardsWhatCanGive.size(); j++) {
+					if (lowestCard.getTypeIndex() > arrCardsWhatCanGive.get(i).getTypeIndex()) {
+						lowestCard = arrCardsWhatCanGive.get(i);
+					}
+					
 				}
-				
 			}
-		}
-		attackWithThisCard = lowestCard;
-		if (!arrCardsWhatCanGive.isEmpty()) {
-			secondCircleOfCardGive = true; 
+			attackWithThisCard = lowestCard;
+			if (!arrCardsWhatCanGive.isEmpty()) {
+				secondCircleOfCardGive = true; 
+			}
 		}
 		return secondCircleOfCardGive; 
 	}

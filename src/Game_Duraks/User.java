@@ -11,8 +11,11 @@ public class User implements Player {
 	private ArrayList<Card> arrUserCards = new ArrayList<Card>();
 	private Card defendWithThisCard;
 	private Card attackWithThisCard;
+	private int trumpIndex;
 	
 	Scanner scanner = new Scanner(System.in);
+	ConsoleText consoleText = new ConsoleText();
+	CardsDeck cardsDeck = new CardsDeck();
 	
 	public void takeCard(Card card) {
 		arrUserCards.add(card);
@@ -24,6 +27,7 @@ public class User implements Player {
 	
 	public Card giveCard() {
 		if (secondCircleOfCardGive == false) {
+			userInterface();
 			System.out.print("Ievadiet vienu no cipariem lai turpinâtu: ");
 			int cardNumber = scanner.nextInt();
 			attackWithThisCard = arrUserCards.get(cardNumber);
@@ -41,7 +45,7 @@ public class User implements Player {
 	}
 
 	public Card giveCard_ToDefenceFrom(Card attackCard) {
-		
+		arrUserCards.remove(defendWithThisCard);
 		return defendWithThisCard;	////////////////////////// user veidu izveidot nevis bota
 	}
 	
@@ -97,8 +101,76 @@ public class User implements Player {
 	}
 
 	public boolean checkCanDefendWithCardFrom(Card cardToAttack) {
+		int userPush;
+		userInterface();
+		System.out.print("Pie Jums, " + name + ", nâk ar " + cardToAttack.getName() + " ar ko kausiet vai òemsiet mâjâs?");
+		boolean userThinkFight = false;
 		
-		return true;///////////////////////////////////////////     user veidu izveidot nevis bota
+		boolean answer = false;
+		ArrayList<Card> arrLocalCardDefend = new ArrayList<Card>();
+		ArrayList<Card> arrTrumpLocalCard = new ArrayList<Card>();
+		
+		for (int i = 0; i < arrUserCards.size(); i++) {
+			int atackCardSuitIndex = cardToAttack.getSuitIndex();
+			int atackCardTypeIndex = cardToAttack.getTypeIndex();
+			int defendCardSuitIndex = arrUserCards.get(i).getSuitIndex();
+			int defendCardTypeIndex = arrUserCards.get(i).getTypeIndex();
+			if (atackCardSuitIndex == defendCardSuitIndex) {
+				if (atackCardTypeIndex < defendCardTypeIndex) {
+					arrLocalCardDefend.add(arrUserCards.get(i));
+				}
+			} 
+		}
+		
+		if (arrLocalCardDefend.isEmpty()) {
+			if (cardToAttack.getSuitIndex() == trumpIndex) {
+				answer = false;
+			} else {
+				for (int i = 0; i < arrUserCards.size(); i++) {
+					if (trumpIndex == arrUserCards.get(i).getSuitIndex()) {
+						arrTrumpLocalCard.add(arrUserCards.get(i));
+					}
+				}
+				if (arrTrumpLocalCard.isEmpty()) {
+					answer = false;
+				} else {
+					answer = true;
+				}
+			}
+		} else {
+			answer = true;
+		}
+		
+		ArrayList<Card> arrTempCheckUserAnswer = new ArrayList<Card>();
+		arrTempCheckUserAnswer.addAll(arrLocalCardDefend);
+		arrTempCheckUserAnswer.addAll(arrTrumpLocalCard);
+		boolean userGive_NotCorrectAnswer = true;
+		
+		while (userGive_NotCorrectAnswer) {
+			userPush = scanner.nextInt() - 1;
+			if (userPush <= arrUserCards.size()) {
+				userThinkFight = true;
+				if (userThinkFight == answer) {
+					for (int i = 0; i < arrTempCheckUserAnswer.size(); i++) {
+						if (arrUserCards.get(userPush) == arrTempCheckUserAnswer.get(i)) {
+							answer = true;
+							defendWithThisCard = arrUserCards.get(userPush);
+							consoleText.userDefend(name, cardToAttack.getName(), defendWithThisCard.getName());
+							break;
+						}
+					}
+					break;
+				} else {
+					answer = false;
+					break;
+				}
+				
+			} 
+			System.out.println("Jums, " + name + ", nav iepçjams nokaut " + cardToAttack.getName() + " ar " 
+					+ arrUserCards.get(userPush).getName() + ",izvçlçties citu kârti vai òemiet mâjâs!");
+			userPush = scanner.nextInt();
+		}
+		return answer; // answer parveidot OBLIGÂTI uz true		///////////////////////////////////////////     user veidu izveidot nevis bota
 	}
 	
 	public boolean checkCanGiveCardToAttack(ArrayList<Card> arrSlaughteredCards) {
@@ -157,6 +229,27 @@ public class User implements Player {
 	public boolean endTheTurn() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private void userInterface() {
+		int numberOfIfStatment = 0;
+		// System.out.println("Trumpis ir: " + cardsDeck.sendTrumpName(trump));
+		consoleText.tellTrump(cardsDeck.sendTrumpName(trumpIndex));
+		System.out.println(getName() + " Jûsu kârtis:");
+		for (int i = 0; i < howMany_CardsHave(); i++) {
+			Card card = cardInfo(i);
+			System.out.println("  " + (i + 1) + ") " + card.getSuit() + "_" + card.getType());
+			numberOfIfStatment = i;
+		}
+		System.out.println("  " + (numberOfIfStatment + 2) + ") " + "Atkarîgi no situâcijas - òemt mâjâs vai pabeigt gâjienu");
+		System.out.println();
+		/*
+		 * if (attackOrDefend == true) { System.out.println("  " + (numberOfIfStatment +
+		 * 1) + ") " + "Pateikt, ka ir kauts! (nav ko pielikt)"); } else if
+		 * (attackOrDefend == false) { System.out.println("  " + (numberOfIfStatment +
+		 * 1) + ") " + "Pateikt, ka jûs òemat mâjâs kârtis!"); }
+		 */
+		//////////////////////////////////////////////////////
 	}
 	
 	

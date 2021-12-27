@@ -10,7 +10,7 @@ public class ConsoleText {
 							"\t* Kâvçjs (spçlçtâjs, pie kura tiek veikts gâjiens) var kârtis kaut ar konkrçtâ masta spçcîgâku kârti vai arî kârti no trumpjiem. \n" + 
 							"\t* Ja kâvçjs nevar kaut kârti(s), viòð uzòem visas gâjiena laikâ izliktâs kârtis.\n" + 
 							"\t* Zaudç tas spçlçtâjs, kuram rokâs paliek pçdçjâs kârtis vai pçdçjais veic atkauðanos.");
-		System.out.println("Veiksmi spçlç! Uzpiediet kaut ko lai turpinâtu!");
+		System.out.println("Veiksmi spçlç! Uzpiediet 'Enter' lai turpinâtu!");
 		
 	}
 	
@@ -43,7 +43,11 @@ public class ConsoleText {
 		
 	}
 	
-	public void userDefend() {
-		
+	public void userDefend(String userName, String attackCardName, String defendCardName) {
+		System.out.println("Jûs " + userName + " atsitaties no " + attackCardName  + " ar " + defendCardName);
+	}
+	
+	public void userTakeHome() {
+		System.out.println("Jûs paòçmât majâs, uzcçlât visas kârtis ðinî gâjienâ izliktâs uz galda!");
 	}
 }

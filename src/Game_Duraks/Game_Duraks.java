@@ -50,8 +50,6 @@ public class Game_Duraks {
 		}
 		System.out.println();
 		trump = cardsDeck.makeTrump();
-		String trumpName = cardsDeck.sendTrumpName(trump);
-		consoleText.tellTrump(trumpName);
 	}
 	
 	public int whoGoesFirst() {
@@ -163,24 +161,7 @@ public class Game_Duraks {
 		return aswer;
 	}
 	
-	public void userInterface() {
-		int numberOfIfStatment = 0;
-		// System.out.println("Trumpis ir: " + cardsDeck.sendTrumpName(trump));
-		System.out.println(arrUsers[0].getName() + " Jûsu kârtis:");
-		for (int i = 0; i < arrUsers[0].howMany_CardsHave(); i++) {
-			Card card = arrUsers[0].cardInfo(i);
-			System.out.println("  " + (i + 1) + ") " + card.getSuit() + "_" + card.getType());
-			numberOfIfStatment = i;
-		}
-		System.out.println("  " + (numberOfIfStatment + 2) + ") " + "Atkarîgi no situâcijas - òemt mâjâs vai pabeigt gâjienu");
-		/*
-		 * if (attackOrDefend == true) { System.out.println("  " + (numberOfIfStatment +
-		 * 1) + ") " + "Pateikt, ka ir kauts! (nav ko pielikt)"); } else if
-		 * (attackOrDefend == false) { System.out.println("  " + (numberOfIfStatment +
-		 * 1) + ") " + "Pateikt, ka jûs òemat mâjâs kârtis!"); }
-		 */
-		//////////////////////////////////////////////////////
-	}
+
 	
 	
 	

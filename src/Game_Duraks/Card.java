@@ -5,6 +5,7 @@ public class Card {
 	private String type;
 	private int suitIndex;
 	private int typeIndex;
+	private String name;
 	
 	public String getSuit() {
 		return suit;
@@ -32,6 +33,12 @@ public class Card {
 	}
 	public void setTypeIndex(int typeIndex) {
 		this.typeIndex = typeIndex;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
